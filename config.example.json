@@ -1,0 +1,17 @@
+{
+  "thread_id": "replace-with-the-visible-codex-thread-id",
+  "user_id": "replace-with-the-allowed-wechat-user-id",
+  "credentials_path": "~/.config/same-thread-bridge/wechat-credentials.json",
+  "inbox_path": "~/.local/share/same-thread-bridge/messages.jsonl",
+  "state_path": "~/.local/share/same-thread-bridge/state.json",
+  "media_dir": "~/.local/share/same-thread-bridge/media",
+  "workspace": "/absolute/path/to/your/codex/workspace",
+  "rollout_path": "/absolute/path/to/the/thread/rollout.jsonl",
+  "initial_blocking_turn_id": "",
+  "codex_path": "/Applications/Codex.app/Contents/Resources/codex",
+  "codex_mode": "desktop-ipc",
+  "desktop_ipc_socket_path": "~/.codex/ipc/ipc.sock",
+  "source_label": "WeChat",
+  "poll_seconds": 2,
+  "reply_limit": 1800
+}
