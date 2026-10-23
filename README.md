@@ -49,12 +49,27 @@ Edit the generated config and credentials files, then run:
 
 Send one harmless text message first. After it appears in the selected Codex window and the reply returns to WeChat, try a photo.
 
+## Move WeChat to another Codex window
+
+The installer also adds a small Codex skill. Open the destination chat and say:
+
+> Bind WeChat to this window.
+
+The helper detects that chat and its workspace automatically. It switches only when the local bridge queue is empty, restarts the background bridge, verifies the new binding, and restores the previous config if verification fails. Only one Codex chat receives new WeChat messages at a time.
+
+To inspect the proposed switch without changing anything:
+
+```bash
+"$HOME/Library/Application Support/SameThreadBridge/bin/bind-wechat-here" --dry-run
+```
+
 See [configuration](docs/configuration.md) for every field and [troubleshooting](docs/troubleshooting.md) when the desktop thread is not found.
 
 ## Safety model
 
 - One configured WeChat user ID is accepted; all other senders are ignored.
 - The bridge targets one explicit Codex thread.
+- Rebinding moves that single target; it does not broadcast messages to multiple chats.
 - Historical messages are ignored when the poll cursor is seeded for the first time.
 - Credentials, state, logs, and media are ignored by Git.
 - Final answers return to WeChat. Analysis, tool traces, and approval UI remain on the computer.

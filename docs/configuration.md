@@ -34,3 +34,16 @@ chmod 600 ~/.config/same-thread-bridge/wechat-credentials.json
 ```
 
 The repository deliberately does not automate credential acquisition.
+
+## Current-window binding
+
+When the installed `bind-wechat-here` skill is invoked inside a Codex chat, the helper reads `CODEX_THREAD_ID`, uses the current working directory as `workspace`, and locates the matching rollout under `~/.codex/sessions`.
+
+It updates only:
+
+- `thread_id`
+- `workspace`
+- `rollout_path`
+- `initial_blocking_turn_id`, which is cleared
+
+The switch stops if the persistent bridge queue contains a message. Before writing, it keeps one owner-only `config.json.before-bind` backup. A failed restart or verification restores that backup automatically.

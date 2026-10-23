@@ -38,7 +38,7 @@ DEFAULT_CONFIG = Path(
 ).expanduser()
 WECHAT_CDN_BASE_URL = "https://novac2c.cdn.weixin.qq.com/c2c"
 WECHAT_CHANNEL_VERSION = "2.4.8"
-WECHAT_BOT_AGENT = "SameThreadBridge/0.1.0"
+WECHAT_BOT_AGENT = "SameThreadBridge/0.2.0"
 MAX_IMAGE_BYTES = 25 * 1024 * 1024
 MARKDOWN_IMAGE_RE = re.compile(r"!\[[^\]]*\]\((?:<([^>]+)>|([^\s)]+))(?:\s+[^)]*)?\)")
 

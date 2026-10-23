@@ -6,13 +6,16 @@ install_dir="${SAME_THREAD_BRIDGE_HOME:-$HOME/Library/Application Support/SameTh
 config_dir="${SAME_THREAD_BRIDGE_CONFIG_DIR:-$HOME/.config/same-thread-bridge}"
 data_dir="${SAME_THREAD_BRIDGE_DATA_DIR:-$HOME/.local/share/same-thread-bridge}"
 agent_path="${SAME_THREAD_BRIDGE_AGENT_PATH:-$HOME/Library/LaunchAgents/com.paperchip.same-thread-bridge.plist}"
+skill_dir="${SAME_THREAD_BRIDGE_SKILL_DIR:-$HOME/.codex/skills/bind-wechat-here}"
 skip_agent=0
+launch_label="com.paperchip.same-thread-bridge"
 
 if [[ "${1:-}" == "--no-launch-agent" ]]; then
   skip_agent=1
+  launch_label=""
 fi
 
-mkdir -p "$install_dir" "$config_dir" "$data_dir" "${agent_path:h}"
+mkdir -p "$install_dir/bin" "$config_dir" "$data_dir" "${agent_path:h}" "$skill_dir"
 chmod 700 "$config_dir" "$data_dir"
 
 python3 -m venv --system-site-packages "$install_dir/.venv"
@@ -32,9 +35,20 @@ if [[ ! -f "$config_dir/wechat-credentials.json" ]]; then
   chmod 600 "$config_dir/wechat-credentials.json"
 fi
 
+cat > "$install_dir/bin/bind-wechat-here" <<WRAPPER
+#!/bin/zsh
+exec "$install_dir/.venv/bin/same-thread-bind" \\
+  --config "$config_dir/config.json" \\
+  --launch-agent-label "$launch_label" \\
+  "\$@"
+WRAPPER
+chmod 700 "$install_dir/bin/bind-wechat-here"
+cp "$repo_dir/skills/bind-wechat-here/SKILL.md" "$skill_dir/SKILL.md"
+
 if (( skip_agent )); then
   echo "Installed without a LaunchAgent."
   echo "Config: $config_dir/config.json"
+  echo "Codex skill: $skill_dir/SKILL.md"
   exit 0
 fi
 
@@ -74,3 +88,4 @@ launchctl bootstrap "gui/$UID" "$agent_path"
 
 echo "Installed Same Thread Bridge."
 echo "Edit $config_dir/config.json, then run scripts/healthcheck.sh."
+echo "In any Codex chat, ask: bind WeChat to this window."
